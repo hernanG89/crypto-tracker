@@ -6,12 +6,17 @@ import { layoutStyles } from './styles';
 import AssetItem from '../AssetItem';
 import testIds from './testIds';
 
+const Constants = {
+  flatlist: { maxToRenderPerBatch: 7, windowsSize: 3 },
+};
+
 type AssetsListProps = {
   assets: Asset[];
   onAssetPress?: (asset: Asset) => void;
   onPullToRefresh?: () => void;
   isRefreshing?: boolean;
   ListFooter?: JSX.Element;
+  ListEmpty?: JSX.Element;
 };
 
 const Separator = () => <View style={layoutStyles.separator} />;
@@ -22,6 +27,7 @@ const AssetsList = ({
   onPullToRefresh,
   isRefreshing,
   ListFooter,
+  ListEmpty,
 }: AssetsListProps) => {
   const renderItem: ListRenderItem<Asset> = useCallback(
     ({ item }) => {
@@ -39,8 +45,11 @@ const AssetsList = ({
       style={layoutStyles.container}
       contentContainerStyle={layoutStyles.contentContainer}
       ListFooterComponent={ListFooter}
+      ListEmptyComponent={ListEmpty}
       onRefresh={onPullToRefresh}
       refreshing={isRefreshing}
+      maxToRenderPerBatch={Constants.flatlist.maxToRenderPerBatch}
+      windowSize={Constants.flatlist.windowsSize}
     />
   );
 };

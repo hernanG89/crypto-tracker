@@ -5,7 +5,8 @@ import { mapGetAssetMarketData } from '../../../api/assetsApi/transformers';
 
 export const getAllAssets = createAsyncThunk('assets/getAllAssets', async () => {
   const response = await assetsApi.getAllAssets();
-  return response.data;
+
+  return response.data.data.filter((asset) => !!asset.symbol);
 });
 
 export const updateAssetsMarketData = createAsyncThunk(
@@ -14,11 +15,12 @@ export const updateAssetsMarketData = createAsyncThunk(
     const assetsSymbol: string[] = await thunkAPI
       .getState()
       .assets.watchlist.data.map((asset) => asset.symbol);
+
     const responses = await Promise.all(
       assetsSymbol.map((symbol) => assetsApi.getAssetMarketData(symbol.toLowerCase()))
     );
-    const data = responses.map((response) => response.data);
 
+    const data = responses.map((response) => response.data);
     return data.map(mapGetAssetMarketData);
   }
 );

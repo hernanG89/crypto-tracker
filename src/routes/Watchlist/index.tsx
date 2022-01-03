@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { Alert, Text, TouchableOpacity, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -44,6 +44,10 @@ const Watchlist = () => {
     appDispatch(updateAssetsMarketData());
   }, []);
 
+  useEffect(() => {
+    appDispatch(updateAssetsMarketData());
+  }, [assets.length]);
+
   const ListFooter = useMemo(
     () => (
       <View style={layoutStyles.addAssetCTAContainer}>
@@ -55,6 +59,15 @@ const Watchlist = () => {
     [onAddAssetPress]
   );
 
+  const ListEmpty = useMemo(
+    () => (
+      <View style={layoutStyles.emptyListContainer}>
+        <Text style={textStyles.emptyList}>{locales.emptyList}</Text>
+      </View>
+    ),
+    []
+  );
+
   return (
     <SafeAreaView style={layoutStyles.container} testID={testIds.MAIN_CONTAINER} edges={['bottom']}>
       <Header title={locales.headerTitle} />
@@ -64,6 +77,7 @@ const Watchlist = () => {
         onPullToRefresh={onPullToRefresh}
         isRefreshing={refreshingAssets}
         ListFooter={ListFooter}
+        ListEmpty={ListEmpty}
       />
     </SafeAreaView>
   );

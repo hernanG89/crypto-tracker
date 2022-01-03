@@ -4,6 +4,8 @@ import { render } from '@testing-library/react-native';
 import Watchlist from '../';
 import testIds from '../testIds';
 import { NavigationContainer } from '@react-navigation/native';
+import store from '../../../store';
+import { Provider } from 'react-redux';
 
 // Mocks like this need to be configured at the top level
 // of the test file, they can't be setup inside your tests.
@@ -21,7 +23,9 @@ describe('Watchlist', () => {
   test('Should render the scrreen', () => {
     const { getByTestId } = render(
       <NavigationContainer>
-        <Watchlist />
+        <Provider store={store}>
+          <Watchlist />
+        </Provider>
       </NavigationContainer>
     );
 
