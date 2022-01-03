@@ -1,7 +1,11 @@
 import axios, { AxiosRequestConfig } from 'axios';
+import Config from 'react-native-config';
 
 export const axiosParams = {
-  baseURL: 'https://data.messari.io/api/',
+  baseURL: Config.API_URL,
+  headers: {
+    'x-messari-api-key': Config.API_KEY,
+  },
 };
 
 const axiosInstance = axios.create(axiosParams);

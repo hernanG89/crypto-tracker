@@ -7,8 +7,33 @@ type SliceState = {
   watchlist: { loading: boolean; data: Asset[] };
   allAssets: { loading: boolean; data: Asset[] };
 };
+
+const data = [
+  {
+    id: '1',
+    name: 'Bitcoin',
+    slug: 'bitcoin',
+    symbol: 'BTC',
+    marketData: { priceUSD: 7777.77, percentageChangeLast24HoursUSD: -1.57 },
+  },
+  {
+    id: '2',
+    name: 'Ethereum',
+    slug: 'ethereum',
+    symbol: 'ETH',
+    marketData: { priceUSD: 888.77, percentageChangeLast24HoursUSD: 1.57 },
+  },
+  {
+    id: '3',
+    name: 'Solana',
+    slug: 'solana',
+    symbol: 'SOL',
+    marketData: { priceUSD: 12.77, percentageChangeLast24HoursUSD: 15.57 },
+  },
+];
+
 export const initialState: SliceState = {
-  watchlist: { data: [], loading: false },
+  watchlist: { data: [...data], loading: false },
   allAssets: { loading: false, data: [] },
 };
 

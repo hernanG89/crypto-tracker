@@ -1,17 +1,13 @@
-import { Asset } from '../../../store/slices/types';
-import { Data as GetAssetMarketDataResponse } from '../types/getAssetMarketData';
+import { Data } from '../types/getAssetMarketData';
+import { Asset } from '../../../store/slices/assets/types';
 
-export const mapGetAssetMarketData = ({
-  data: { id, name, slug, symbol, market_data },
-}: {
-  data: GetAssetMarketDataResponse;
-}): Asset => ({
-  id,
-  name,
-  slug,
-  symbol,
+export const mapGetAssetMarketData = ({ data }: { data: Data }): Asset => ({
+  id: data.id,
+  name: data.name,
+  slug: data.slug,
+  symbol: data.symbol,
   marketData: {
-    priceUSD: market_data.price_usd,
-    percentageChangeLast24HoursUSD: market_data.percent_change_usd_last_24_hours,
+    priceUSD: data?.market_data.price_usd,
+    percentageChangeLast24HoursUSD: data?.market_data.percent_change_usd_last_24_hours,
   },
 });

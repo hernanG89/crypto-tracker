@@ -1,0 +1,9 @@
+import keyMirror from 'keymirror';
+
+export default keyMirror({
+  ASSET_ITEM_ON_PRESS_: null,
+  ASSET_ITEM_CONTAINER_: null,
+  ASSET_ITEM_MARKET_DATA_CONTAINER_: null,
+  ASSET_ITEM_MARKET_DATA_PERCENTAGE_VARIATION_TEXT_: null,
+  ASSET_ITEM_MARKET_DATA_PERCENTAGE_VARIATION_ICON_: null,
+});
