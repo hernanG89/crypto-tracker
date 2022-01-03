@@ -5,4 +5,5 @@ export default {
   watchMsg: 'Do you want to watch this asset?',
   cancel: 'Cancel',
   watch: 'Watch',
+  assetNotFound: 'Asset not found',
 };

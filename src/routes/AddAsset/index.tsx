@@ -66,15 +66,24 @@ const AddAsset = () => {
     }
   }, []);
 
-  const ListEmpty = useMemo(
-    () =>
-      !assets.length && pullingAssets ? (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+  const ListEmpty = useMemo(() => {
+    if (!assets.length && pullingAssets) {
+      return (
+        <View style={layoutStyles.loadingContainer}>
           <ActivityIndicator size={'large'} />
         </View>
-      ) : undefined,
-    [assets, pullingAssets]
-  );
+      );
+    }
+    if (searchTerm.length && filteredAssets.length === 0) {
+      return (
+        <View style={layoutStyles.assetNotFoundContainer}>
+          <Text style={textStyles.assetNotFound}>{locales.assetNotFound}</Text>
+        </View>
+      );
+    }
+
+    return undefined;
+  }, [assets, pullingAssets, searchTerm, filteredAssets]);
 
   return (
     <View style={layoutStyles.container} testID={testIds.MAIN_CONTAINER}>
