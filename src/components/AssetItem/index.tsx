@@ -1,10 +1,11 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
+
 import images from '../../assets/images';
 import { Asset } from '../../store/slices/assets/types';
 import colors from '../../styles/colors';
 import { formatTwoDecimal } from '../../utils/strings';
-import { layoutStyles, textStyles } from './styles';
+import { layoutStyles, noImageContainer, textStyles } from './styles';
 import testIds from './testIds';
 
 type AssetItemProps = {
@@ -22,6 +23,8 @@ const AssetItem = ({ item, onItemPress }: AssetItemProps) => {
     }
   }, [item, onItemPress]);
 
+  const imageSrouce = useMemo(() => (item.image ? { uri: item.image } : undefined), []);
+
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -29,9 +32,14 @@ const AssetItem = ({ item, onItemPress }: AssetItemProps) => {
       testID={`${testIds.ASSET_ITEM_ON_PRESS_}${item.id}`}
     >
       <View style={layoutStyles.container} testID={`${testIds.ASSET_ITEM_CONTAINER_}${item.id}`}>
-        <View style={layoutStyles.iconContainer}>
-          <Text style={textStyles.icon}>{item.symbol}</Text>
-        </View>
+        {imageSrouce ? (
+          <Image source={imageSrouce} style={layoutStyles.imageContainer} />
+        ) : (
+          <View style={noImageContainer}>
+            <Text style={textStyles.icon}>{item.symbol}</Text>
+          </View>
+        )}
+
         <View style={layoutStyles.descriptorContainer}>
           <Text style={textStyles.name}>{item.name}</Text>
           <Text style={textStyles.symbol}>{item.symbol}</Text>

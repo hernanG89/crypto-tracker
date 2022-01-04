@@ -16,14 +16,14 @@ export const layoutStyles = StyleSheet.create({
     paddingVertical: 24,
     alignItems: 'center',
   },
-  iconContainer: {
+  imageContainer: {
     height: Constants.iconContainerWith,
     width: Constants.iconContainerWith,
     borderRadius: Constants.iconContainerWith / 2,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'red',
   },
+
   descriptorContainer: { ...layouts.container, marginLeft: 8 },
   marketDataContainer: { alignItems: 'flex-end' },
   percentageArrow: {
@@ -32,6 +32,11 @@ export const layoutStyles = StyleSheet.create({
   },
   percentageVariationContainer: { flexDirection: 'row', justifyContent: 'flex-end' },
 });
+
+export const noImageContainer = {
+  ...layoutStyles.imageContainer,
+  backgroundColor: colors.greyLight,
+};
 
 export const textStyles = StyleSheet.create({
   icon: { ...typhography.interBold, color: colors.white },

@@ -27,7 +27,7 @@ export const layoutStyles = StyleSheet.create({
     width: Constants.avatarWidth,
     height: Constants.avatarWidth,
     borderRadius: Constants.avatarWidth / 2,
-    backgroundColor: 'red',
+    backgroundColor: colors.greyLight,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -35,5 +35,5 @@ export const layoutStyles = StyleSheet.create({
 
 export const textStyles = StyleSheet.create({
   title: { ...typhography.interBold, fontSize: 24, lineHeight: 30, color: colors.white },
-  avatar: { ...typhography.interBold, fontSize: 12, color: colors.white },
+  avatar: { ...typhography.interBold, fontSize: 12, color: colors.blueNavy },
 });

@@ -6,6 +6,7 @@ export const mapToAsset = (asset: APIAsset): Asset => ({
   id: asset.id,
   name: asset.name,
   symbol: asset.symbol,
+  image: asset.image,
 });
 
 export const mapToAssetWithMarketData = (asset: APIAsset): Asset => ({
