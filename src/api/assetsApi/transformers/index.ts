@@ -1,13 +1,17 @@
-import { Data } from '../types/getAssetMarketData';
+import { Asset as APIAsset } from '../types';
+
 import { Asset } from '../../../store/slices/assets/types';
 
-export const mapGetAssetMarketData = ({ data }: { data: Data }): Asset => ({
-  id: data.id,
-  name: data.name,
-  slug: data.slug,
-  symbol: data.symbol,
+export const mapToAsset = (asset: APIAsset): Asset => ({
+  id: asset.id,
+  name: asset.name,
+  symbol: asset.symbol,
+});
+
+export const mapToAssetWithMarketData = (asset: APIAsset): Asset => ({
+  ...mapToAsset(asset),
   marketData: {
-    priceUSD: data?.market_data.price_usd,
-    percentageChangeLast24HoursUSD: data?.market_data.percent_change_usd_last_24_hours,
+    price: asset.current_price,
+    percentageChangeLast24Hours: asset.price_change_percentage_24h,
   },
 });

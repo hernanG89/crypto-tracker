@@ -1,10 +1,16 @@
-import React, { useCallback } from 'react';
-import { FlatList, ListRenderItem, View } from 'react-native';
+import React, { useCallback, useMemo } from 'react';
+import {
+  FlatList,
+  ListRenderItem,
+  RefreshControl as RefreshControlComponent,
+  View,
+} from 'react-native';
 
 import { Asset } from '../../store/slices/assets/types';
 import { layoutStyles } from './styles';
 import AssetItem from '../AssetItem';
 import testIds from './testIds';
+import colors from '../../styles/colors';
 
 const Constants = {
   flatlist: { maxToRenderPerBatch: 7, windowsSize: 3 },
@@ -36,6 +42,17 @@ const AssetsList = ({
     [onAssetPress]
   );
 
+  const RefreshControl = useMemo(
+    () => (
+      <RefreshControlComponent
+        onRefresh={onPullToRefresh}
+        colors={[colors.blueNavy]}
+        refreshing={!!isRefreshing}
+      />
+    ),
+    [onPullToRefresh, isRefreshing]
+  );
+
   return (
     <FlatList
       testID={testIds.ASSETS_LIST_CONTAINER}
@@ -46,8 +63,7 @@ const AssetsList = ({
       contentContainerStyle={layoutStyles.contentContainer}
       ListFooterComponent={ListFooter}
       ListEmptyComponent={ListEmpty}
-      onRefresh={onPullToRefresh}
-      refreshing={isRefreshing}
+      refreshControl={RefreshControl}
       maxToRenderPerBatch={Constants.flatlist.maxToRenderPerBatch}
       windowSize={Constants.flatlist.windowsSize}
     />

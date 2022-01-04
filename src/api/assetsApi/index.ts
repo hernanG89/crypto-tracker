@@ -3,11 +3,11 @@ import { AxiosRequestConfig } from 'axios';
 import api from '../index';
 
 const getAllAssets = (config?: AxiosRequestConfig) =>
-  api.get('/v2/assets?fields=id,name,slug,symbol&limit=500', config);
+  api.get('/v3/coins/markets?vs_currency=usd&per_page=50', config);
 
-const getAssetMarketData = (symbol: string, config?: AxiosRequestConfig) =>
-  api.get(`/v1/assets/${symbol}/metrics/market-data`, {
+const getAssets = (ids: string[] = [], config?: AxiosRequestConfig) =>
+  api.get(`/v3/coins/markets?vs_currency=usd&ids=${ids.join()}`, {
     ...config,
   });
 
-export default { getAllAssets, getAssetMarketData };
+export default { getAllAssets, getAssets };

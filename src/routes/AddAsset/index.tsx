@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { ActivityIndicator, Alert, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { throttle } from 'lodash';
+import { filter, throttle, without } from 'lodash';
 
 import { layoutStyles, textStyles } from './styles';
 import testIds from './testIds';
@@ -9,7 +9,7 @@ import locales from '../../locales/addAssets';
 import AssetsList from '../../components/AssetsList';
 import { Asset } from '../../store/slices/assets/types';
 import useAppDispatch from '../../store/hooks/useAppDispatch';
-import { useAllAssets } from '../../store/slices/assets/hooks';
+import { useAllAssets, useWatchlist } from '../../store/slices/assets/hooks';
 import { getAllAssets, watchAsset } from '../../store/slices/assets/assets';
 
 const Constants = {
@@ -26,15 +26,23 @@ const AddAsset = () => {
     }, Constants.textChangeThrottle),
     []
   );
-  const [assets, pullingAssets] = useAllAssets();
+  const [allAssets, pullingAssets] = useAllAssets();
+  const [watchlistAssets] = useWatchlist();
+
+  const assets = useMemo(
+    () =>
+      watchlistAssets.length === 0
+        ? allAssets
+        : filter(allAssets, (asset) => !watchlistAssets.find((wAsset) => wAsset.id === asset.id)),
+    [allAssets, watchlistAssets]
+  );
 
   const filteredAssets = useMemo(() => {
     const searchTermToUppercase = `${searchTerm}`.toUpperCase();
-    const searchTermToLowerCase = `${searchTerm}`.toLowerCase();
 
     return assets.filter(
       (asset) =>
-        asset.slug?.includes(searchTermToLowerCase) || asset.symbol?.includes(searchTermToUppercase)
+        asset.id.includes(searchTermToUppercase) || asset.symbol.includes(searchTermToUppercase)
     );
   }, [searchTerm, assets]);
 
@@ -67,13 +75,6 @@ const AddAsset = () => {
   }, []);
 
   const ListEmpty = useMemo(() => {
-    if (!assets.length && pullingAssets) {
-      return (
-        <View style={layoutStyles.loadingContainer}>
-          <ActivityIndicator size={'large'} />
-        </View>
-      );
-    }
     if (searchTerm.length && filteredAssets.length === 0) {
       return (
         <View style={layoutStyles.assetNotFoundContainer}>
@@ -104,8 +105,8 @@ const AddAsset = () => {
         assets={searchTerm?.length > 0 ? filteredAssets : assets}
         onAssetPress={onAssetPress}
         ListEmpty={ListEmpty}
-        onPullToRefresh={onPullToRefresh}
-        isRefreshing={assets.length > 0 ? pullingAssets : false}
+        onPullToRefresh={assets.length === 0 ? onPullToRefresh : undefined}
+        isRefreshing={assets.length === 0 ? pullingAssets : false}
       />
     </View>
   );

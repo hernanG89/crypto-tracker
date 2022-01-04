@@ -9,7 +9,7 @@ import images from '../../assets/images';
 
 describe('AssetItem', () => {
   const onItemPress = jest.fn();
-  const asset: Asset = { id: '1', name: 'Bitcoin', slug: 'bitcoin', symbol: 'BTC' };
+  const asset: Asset = { id: 'bitcoin', name: 'Bitcoin', symbol: 'btc' };
   test('Render Item', () => {
     const { getByTestId } = render(<AssetItem item={asset} />);
 
@@ -42,7 +42,7 @@ describe('AssetItem', () => {
   test('Render market data', () => {
     const { getByTestId } = render(
       <AssetItem
-        item={{ ...asset, marketData: { priceUSD: 1, percentageChangeLast24HoursUSD: 1 } }}
+        item={{ ...asset, marketData: { price: 1, percentageChangeLast24Hours: 1 } }}
         onItemPress={onItemPress}
       />
     );
@@ -56,7 +56,7 @@ describe('AssetItem', () => {
   test('Render market data', () => {
     const { getByTestId } = render(
       <AssetItem
-        item={{ ...asset, marketData: { priceUSD: 1, percentageChangeLast24HoursUSD: 1 } }}
+        item={{ ...asset, marketData: { price: 1, percentageChangeLast24Hours: 1 } }}
         onItemPress={onItemPress}
       />
     );
@@ -69,9 +69,7 @@ describe('AssetItem', () => {
 
   test('The asset percentage variation should match positive styles', () => {
     const { getByTestId } = render(
-      <AssetItem
-        item={{ ...asset, marketData: { priceUSD: 1, percentageChangeLast24HoursUSD: 1 } }}
-      />
+      <AssetItem item={{ ...asset, marketData: { price: 1, percentageChangeLast24Hours: 1 } }} />
     );
 
     const iconComponent = getByTestId(
@@ -81,16 +79,14 @@ describe('AssetItem', () => {
       `${testIds.ASSET_ITEM_MARKET_DATA_PERCENTAGE_VARIATION_TEXT_}${asset.id}`
     );
 
-    expect(iconComponent).toHaveProp('source', images.northWestArrow);
+    expect(iconComponent).toHaveProp('source', images.northEastArrow);
 
     expect(textComponent).toHaveStyle({ color: colors.greenSuccess });
   });
 
   test('The asset percentage variation should match positive styles', () => {
     const { getByTestId } = render(
-      <AssetItem
-        item={{ ...asset, marketData: { priceUSD: 1, percentageChangeLast24HoursUSD: -1 } }}
-      />
+      <AssetItem item={{ ...asset, marketData: { price: 1, percentageChangeLast24Hours: -1 } }} />
     );
 
     const iconComponent = getByTestId(
@@ -99,7 +95,7 @@ describe('AssetItem', () => {
     const textComponent = getByTestId(
       `${testIds.ASSET_ITEM_MARKET_DATA_PERCENTAGE_VARIATION_TEXT_}${asset.id}`
     );
-    expect(iconComponent).toHaveProp('source', images.southEastArrow);
+    expect(iconComponent).toHaveProp('source', images.southWestArrow);
 
     expect(textComponent).toHaveStyle({ color: colors.redDanger });
   });

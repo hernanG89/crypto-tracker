@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { getAllAssets, updateAssetsMarketData } from './thunks';
+import { getAllAssets, updateAssets } from './thunks';
 
 import { Asset } from './types';
 
@@ -39,19 +39,19 @@ const assets = createSlice({
       });
 
     builder
-      .addCase(updateAssetsMarketData.pending, (state) => {
+      .addCase(updateAssets.pending, (state) => {
         state.watchlist.loading = true;
       })
-      .addCase(updateAssetsMarketData.fulfilled, (state, action: PayloadAction<Asset[]>) => {
+      .addCase(updateAssets.fulfilled, (state, action: PayloadAction<Asset[]>) => {
         state.watchlist.loading = false;
         state.watchlist.data = action.payload;
       })
-      .addCase(updateAssetsMarketData.rejected, (state) => {
+      .addCase(updateAssets.rejected, (state) => {
         state.watchlist.loading = false;
       });
   },
 });
 
 export const { watchAsset, unwatchAsset } = assets.actions;
-export { getAllAssets, updateAssetsMarketData };
+export { getAllAssets, updateAssets };
 export default assets.reducer;

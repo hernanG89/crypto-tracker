@@ -25,7 +25,6 @@ export const layoutStyles = StyleSheet.create({
     justifyContent: 'center',
   },
   listContainer: { backgroundColor: 'red', ...layouts.container },
-  loadingContainer: { flex: 1, justifyContent: 'center', alignItems: 'center' },
   assetNotFoundContainer: { paddingVertical: 24, justifyContent: 'center', alignItems: 'center' },
 });
 

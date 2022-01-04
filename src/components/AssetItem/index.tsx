@@ -13,7 +13,7 @@ type AssetItemProps = {
 };
 
 const AssetItem = ({ item, onItemPress }: AssetItemProps) => {
-  const isPositive = item?.marketData && item.marketData.percentageChangeLast24HoursUSD > 0;
+  const isPositive = item?.marketData && item.marketData.percentageChangeLast24Hours > 0;
   const percentageVariationColor = isPositive ? colors.greenSuccess : colors.redDanger;
 
   const onPress = useCallback(() => {
@@ -41,18 +41,18 @@ const AssetItem = ({ item, onItemPress }: AssetItemProps) => {
             style={layoutStyles.marketDataContainer}
             testID={`${testIds.ASSET_ITEM_MARKET_DATA_CONTAINER_}${item.id}`}
           >
-            <Text style={textStyles.price}>$ {formatTwoDecimal(item.marketData?.priceUSD)}</Text>
+            <Text style={textStyles.price}>$ {formatTwoDecimal(item.marketData.price)}</Text>
             <View style={layoutStyles.percentageVariationContainer}>
               <Image
                 testID={`${testIds.ASSET_ITEM_MARKET_DATA_PERCENTAGE_VARIATION_ICON_}${item.id}`}
                 style={[layoutStyles.percentageArrow, { tintColor: percentageVariationColor }]}
-                source={isPositive ? images.northWestArrow : images.southEastArrow}
+                source={isPositive ? images.northEastArrow : images.southWestArrow}
               />
               <Text
                 style={[textStyles.percentageVariation, { color: percentageVariationColor }]}
                 testID={`${testIds.ASSET_ITEM_MARKET_DATA_PERCENTAGE_VARIATION_TEXT_}${item.id}`}
               >
-                {formatTwoDecimal(item.marketData?.percentageChangeLast24HoursUSD)}%
+                {formatTwoDecimal(item.marketData?.percentageChangeLast24Hours)}%
               </Text>
             </View>
           </View>

@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import { Alert, Text, TouchableOpacity, View } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import routes from '..';
@@ -11,14 +11,14 @@ import { layoutStyles, textStyles } from './styles';
 import AssetsList from '../../components/AssetsList';
 import { Asset } from '../../store/slices/assets/types';
 import useAppDispatch from '../../store/hooks/useAppDispatch';
-import { unwatchAsset, updateAssetsMarketData } from '../../store/slices/assets/assets';
-import { useWhitelist } from '../../store/slices/assets/hooks';
+import { unwatchAsset, updateAssets } from '../../store/slices/assets/assets';
+import { useWatchlist } from '../../store/slices/assets/hooks';
 
 const Watchlist = () => {
   const { navigate } = useNavigation();
   const appDispatch = useAppDispatch();
 
-  const [assets, refreshingAssets] = useWhitelist();
+  const [assets, refreshingAssets] = useWatchlist();
 
   const onAssetPress = useCallback((asset: Asset) => {
     Alert.alert(locales.unwatchTitle, locales.unwatchMsg, [
@@ -41,12 +41,23 @@ const Watchlist = () => {
   }, []);
 
   const onPullToRefresh = useCallback(() => {
-    appDispatch(updateAssetsMarketData());
-  }, []);
+    if (assets.length > 0) {
+      appDispatch(updateAssets());
+    }
+  }, [assets]);
+
+  const isFocused = useIsFocused();
+
+  const assetsLenghtRef = useRef(assets.length);
+  useEffect(() => {
+    assetsLenghtRef.current = assets.length;
+  }, [assets]);
 
   useEffect(() => {
-    appDispatch(updateAssetsMarketData());
-  }, [assets.length]);
+    if (isFocused && assetsLenghtRef.current > 0) {
+      appDispatch(updateAssets());
+    }
+  }, [isFocused]);
 
   const ListFooter = useMemo(
     () => (
@@ -74,7 +85,7 @@ const Watchlist = () => {
       <AssetsList
         assets={assets}
         onAssetPress={onAssetPress}
-        onPullToRefresh={onPullToRefresh}
+        onPullToRefresh={assets.length > 0 ? onPullToRefresh : undefined}
         isRefreshing={refreshingAssets}
         ListFooter={ListFooter}
         ListEmpty={ListEmpty}

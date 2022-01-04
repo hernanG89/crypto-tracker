@@ -6,7 +6,12 @@ import typhography from '../../styles/typhography';
 
 export const layoutStyles = StyleSheet.create({
   container: { ...layouts.container, backgroundColor: colors.white },
-  addAssetCTAContainer: { ...layouts.container, justifyContent: 'center', alignItems: 'center' },
+  addAssetCTAContainer: {
+    ...layouts.container,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingBottom: 60,
+  },
   emptyListContainer: { justifyContent: 'center', alignItems: 'center', paddingVertical: 24 },
 });
 
