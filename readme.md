@@ -55,19 +55,7 @@ cd ios && pod install
 
 ```
 
-#### 2. Add .env file
-
-```bash
-
-Create an .env file on the project root adding the following entries
-
-API_URL=
-API_KEY=
-
-
-```
-
-#### 3. Open RNS in your iOS simulator
+#### 2. Open RNS in your iOS simulator
 
 Run this command to start the development server and to start your app on iOS simulator:
 
